@@ -8,6 +8,7 @@ import com.reactnativenavigation.parse.params.Bool;
 import com.reactnativenavigation.parse.params.NullBool;
 import com.reactnativenavigation.viewcontrollers.IReactView;
 import com.reactnativenavigation.views.ComponentLayout;
+import com.reactnativenavigation.utils.StatusBarUtils;
 
 import androidx.annotation.VisibleForTesting;
 
@@ -39,8 +40,10 @@ public class OverlayTouchDelegate {
     }
 
     private boolean isTouchInsideOverlay(MotionEvent ev) {
-        getOverlayView().getHitRect(hitRect);
-        return hitRect.contains((int) ev.getRawX(), (int) ev.getRawY());
+        View view = getOverlayView();
+        view.getHitRect(hitRect);
+        return hitRect.contains((int) ev.getRawX(),
+                (int) ev.getRawY() - StatusBarUtils.getStatusBarHeight(view.getContext()));
     }
 
     private View getOverlayView() {
